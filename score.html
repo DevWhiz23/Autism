@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Score</title>
+    <style>
+        /* CSS styling */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .speedometer {
+            width: 300px;
+            height: 300px;
+            background-color: #87CEEB; /* Light blue color */
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            border: 2px solid #428bca; /* Darker blue border */
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .dial {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-image: conic-gradient(
+                from -180deg,
+                #b0c4de 0%, /* Light steel blue */
+                #87CEEB 5%, /* Sky blue */
+                #6495ED 10%, /* Cornflower blue */
+                #4169E1 15%, /* Royal blue */
+                #4169E1 85%, /* Royal blue */
+                #6495ED 90%, /* Cornflower blue */
+                #87CEEB 95%, /* Sky blue */
+                #b0c4de 100% /* Light steel blue */
+            );
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .speed-label {
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #000; /* Full black color */
+            z-index: 3;
+        }
+
+        .needle {
+            width: 2px;
+            height: 120px;
+            background-color: #ff0000; /* Red needle color */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            transform: translateX(-50%) translateY(-100%) rotate(0deg);
+            transition: transform 0.5s ease;
+            z-index: 2;
+        }
+
+        .score-range {
+            font-size: 18px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #428bca; /* Darker blue border */
+            border-radius: 5px;
+            background-color: #89cde8; /* Light blue background */
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="speedometer">
+        <div class="dial"></div>
+        <div class="needle" id="needle"></div>
+        <div class="speed-label" id="speedLabel">0</div>
+    </div>
+    
+    <div class="score-range">
+        <p><strong>Score Ranges:</strong></p>
+        <p>0 - 14: Few or no Autistic traits</p>
+        <p>15 - 31: Possible ASD or related social-communication difficulties</p>
+    </div>
+
+    <script>
+        // Get the score from the URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const score = parseInt(urlParams.get('score'));
+
+        function updateSpeedometer() {
+            const needle = document.getElementById('needle');
+            const speedLabel = document.getElementById('speedLabel');
+
+            // Calculate the rotation angle for the needle
+            const angle = (score / 31) * 180 - 90; // Adjust range and offset as needed
+
+            // Update needle rotation and speed label
+            needle.style.transform = `translateX(-50%) translateY(-100%) rotate(${angle}deg)`;
+            speedLabel.textContent = score;
+        }
+
+        // Call the updateSpeedometer function to display the score
+        updateSpeedometer();
+    </script>
+</body>
+</html>
